@@ -1,5 +1,13 @@
 <?php
 // Halaman utama: menu operator matematika sederhana
+
+/*
+ALUR BELAJAR (mulai dari sini):
+1) File ini hanya menu navigasi operator.
+2) Setelah paham tampilan menu, lanjut ke salah satu file operator:
+    - tambah.php / kurang.php / kali.php / bagi.php
+3) Saat di file operator, ikuti komentar "ALUR BELAJAR" berikutnya.
+*/
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -7,6 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kalkulator Sederhana PHP</title>
+    <!-- Memuat font, Bootstrap, dan stylesheet custom aplikasi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +27,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
                 <section class="glass-panel p-4 p-md-5 fade-up">
+                    <!-- Header aplikasi dan deskripsi singkat -->
                     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
                         <div>
                             <span class="brand-chip mb-2">RPL1 • PHP Project</span>
@@ -29,6 +39,7 @@
                         </div>
                     </div>
 
+                    <!-- Kartu menu untuk masuk ke masing-masing halaman operasi -->
                     <div class="row g-3">
                         <div class="col-12 col-sm-6">
                             <a href="tambah.php" class="operation-card text-decoration-none d-block h-100">
@@ -65,6 +76,7 @@
             </div>
         </div>
     </main>
+    <!-- Bootstrap JS + script interaksi global (dark mode, multi input, efek hover) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="assets/js/app.js"></script>
 </body>

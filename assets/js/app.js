@@ -1,5 +1,16 @@
+// Key localStorage untuk menyimpan preferensi tema user.
 const THEME_STORAGE_KEY = "kalkulator-theme";
 
+/*
+ALUR BELAJAR (frontend interaksi):
+1) Mulai dari bawah file: event DOMContentLoaded.
+2) Lihat fungsi yang dipanggil berurutan:
+    createThemeToggle() -> initMultiInputForms() -> efek hover kartu.
+3) Kalau ingin tahu asal class/warna komponen, pindah ke assets/css/app.css.
+4) Kalau ingin tahu alur submit backend, pindah ke file operator (mis. tambah.php).
+*/
+
+// Menentukan tema awal: prioritas dari localStorage, lalu preferensi sistem, default light.
 function resolveInitialTheme() {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
 
@@ -14,10 +25,12 @@ function resolveInitialTheme() {
     return "light";
 }
 
+// Menempelkan atribut tema pada root HTML agar variabel CSS ikut berubah.
 function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
 }
 
+// Mengubah teks tombol toggle supaya sesuai kondisi tema saat ini.
 function updateToggleLabel(button) {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
     button.textContent = isDark ? "Light Mode" : "Dark Mode";
@@ -25,6 +38,7 @@ function updateToggleLabel(button) {
     button.setAttribute("title", isDark ? "Pindah ke mode terang" : "Pindah ke mode gelap");
 }
 
+// Membuat tombol toggle tema secara dinamis dan memasang event click.
 function createThemeToggle() {
     const button = document.createElement("button");
     button.type = "button";
@@ -44,6 +58,7 @@ function createThemeToggle() {
     document.body.appendChild(button);
 }
 
+// Menangani form multi-input: tambah kolom, hapus kolom, dan sinkronkan label/required.
 function initMultiInputForms() {
     const forms = document.querySelectorAll("[data-multi-input-form]");
 
@@ -56,10 +71,12 @@ function initMultiInputForms() {
             return;
         }
 
+        // Ambil semua baris input yang aktif saat ini.
         function getRows() {
             return Array.from(container.querySelectorAll(".multi-input-row"));
         }
 
+        // Menjaga urutan label angka dan aturan minimal jumlah input.
         function refreshRows() {
             const rows = getRows();
 
@@ -83,6 +100,7 @@ function initMultiInputForms() {
             });
         }
 
+        // Membuat satu baris input baru ketika user menekan tombol "Tambah Input".
         function createRow(value) {
             const row = document.createElement("div");
             row.className = "input-group multi-input-row";
@@ -97,6 +115,7 @@ function initMultiInputForms() {
             return row;
         }
 
+        // Event tambah input.
         if (addButton) {
             addButton.addEventListener("click", function () {
                 container.appendChild(createRow(""));
@@ -104,6 +123,7 @@ function initMultiInputForms() {
             });
         }
 
+        // Event delegasi untuk tombol hapus input per baris.
         container.addEventListener("click", function (event) {
             const target = event.target;
 
@@ -131,14 +151,17 @@ function initMultiInputForms() {
     });
 }
 
+// Terapkan tema secepat mungkin untuk mencegah flicker saat halaman pertama kali muncul.
 applyTheme(resolveInitialTheme());
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Inisialisasi komponen interaktif setelah DOM siap.
     createThemeToggle();
     initMultiInputForms();
 
     const cards = document.querySelectorAll(".operation-card");
 
+    // Efek spotlight mengikuti posisi kursor pada kartu menu di halaman utama.
     cards.forEach(function (card) {
         card.addEventListener("mousemove", function (event) {
             const rect = card.getBoundingClientRect();

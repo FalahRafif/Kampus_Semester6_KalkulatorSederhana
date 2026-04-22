@@ -1,6 +1,19 @@
 <?php
+// Memuat helper kalkulator agar logika hitung, validasi, dan riwayat tidak duplikat.
 require_once __DIR__ . '/includes/calculator_utils.php';
 
+/*
+ALUR BELAJAR (halaman operator):
+1) Lihat blok POST di file ini untuk memahami alur request -> validasi -> hitung.
+2) Saat menemukan fungsi helper (mis. calculator_calculate), pindah ke:
+    includes/calculator_utils.php
+3) Untuk memahami tombol tambah/hapus input, pindah ke:
+    assets/js/app.js (fungsi initMultiInputForms)
+4) Untuk memahami styling UI, pindah ke:
+    assets/css/app.css
+*/
+
+// Menyiapkan session dan state awal aplikasi.
 calculator_bootstrap();
 
 $hasil = null;
@@ -9,24 +22,32 @@ $expression = null;
 $error = null;
 $inputValues = ['', ''];
 
+// Semua aksi form ditangani lewat metode POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'calculate';
 
+    // Aksi khusus untuk menghapus riwayat perhitungan.
     if ($action === 'clear_history') {
         calculator_clear_history();
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit;
     }
 
+    // Ambil input dinamis dari form lalu validasi ke angka.
+    // Jika ingin tahu detail validasinya, lihat calculator_parse_numeric_values() di helper.
     $inputValues = calculator_get_form_values($_POST);
     $parsed = calculator_parse_numeric_values($inputValues);
     $values = $parsed['values'];
     $error = $parsed['error'];
 
+    // Jika validasi lolos, proses operasi penjumlahan.
+    // Detail rumus ada di calculator_calculate('add', ...) pada helper.
     if ($error === null) {
         $calculated = calculator_calculate('add', $values);
         $error = $calculated['error'];
 
+        // Simpan hasil dan riwayat bila perhitungan berhasil.
+        // Setelah ini, panel riwayat di bawah akan membaca data session tersebut.
         if ($error === null) {
             $hasil = (float) $calculated['result'];
             $hasilTeks = calculator_format_number($hasil);
@@ -36,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Riwayat dipakai untuk ditampilkan pada panel bawah halaman.
 $history = calculator_get_history();
 ?>
 <!DOCTYPE html>
@@ -44,6 +66,7 @@ $history = calculator_get_history();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Penjumlahan (+)</title>
+    <!-- Resource UI: Google Font + Bootstrap + CSS custom -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -59,6 +82,8 @@ $history = calculator_get_history();
                     <h1 class="h3 fw-bold calc-title">Penjumlahan (+)</h1>
                     <p class="text-secondary small mb-0">Masukkan minimal dua angka. Kamu bisa menambah input sesuai kebutuhan.</p>
 
+                    <!-- Form multi-input: user bisa tambah/hapus kolom angka -->
+                    <!-- Interaksi tombol di form ini ditangani oleh assets/js/app.js -->
                     <form method="post" class="mt-4 calc-form" data-multi-input-form data-min-input="2">
                         <input type="hidden" name="action" value="calculate">
 
@@ -79,6 +104,7 @@ $history = calculator_get_history();
                         <button type="submit" class="btn btn-accent w-100 py-2">Hitung</button>
                     </form>
 
+                    <!-- Menampilkan error validasi atau hasil kalkulasi -->
                     <?php if ($error): ?>
                         <div class="alert alert-danger mt-4 mb-0" role="alert">
                             <?php echo htmlspecialchars($error); ?>
@@ -89,6 +115,7 @@ $history = calculator_get_history();
                         </div>
                     <?php endif; ?>
 
+                    <!-- Panel riwayat perhitungan pada session browser -->
                     <div class="history-box mt-4 p-3">
                         <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
                             <h2 class="h6 mb-0">Riwayat Perhitungan</h2>
@@ -122,6 +149,7 @@ $history = calculator_get_history();
             </div>
         </div>
     </main>
+    <!-- Script global untuk dark mode dan interaksi input dinamis -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="assets/js/app.js"></script>
 </body>
