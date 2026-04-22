@@ -1,0 +1,160 @@
+:root {
+    --surface: rgba(255, 255, 255, 0.9);
+    --surface-strong: #ffffff;
+    --text-main: #122137;
+    --text-soft: #4b5d79;
+    --border-soft: rgba(140, 160, 190, 0.25);
+    --shadow-soft: 0 20px 45px rgba(16, 29, 55, 0.12);
+    --accent: #0ea5e9;
+    --accent-strong: #0284c7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.app-shell {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Sora", "Segoe UI", sans-serif;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.25), transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.25), transparent 40%),
+        linear-gradient(145deg, #f8fbff 0%, #eef4ff 55%, #ecfeff 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body.app-shell::before,
+body.app-shell::after {
+    content: "";
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    border-radius: 999px;
+    filter: blur(40px);
+    z-index: -1;
+}
+
+body.app-shell::before {
+    top: -120px;
+    left: -80px;
+    background: rgba(37, 99, 235, 0.28);
+}
+
+body.app-shell::after {
+    right: -90px;
+    bottom: -120px;
+    background: rgba(6, 182, 212, 0.24);
+}
+
+.glass-panel {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 1.2rem;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(4px);
+}
+
+.brand-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #075985;
+    background: rgba(103, 232, 249, 0.35);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.operation-card {
+    background: var(--surface-strong);
+    border: 1px solid var(--border-soft);
+    border-radius: 1rem;
+    padding: 1rem 0.95rem;
+    min-height: 100%;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    color: var(--text-main);
+}
+
+.operation-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(37, 99, 235, 0.45);
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.16);
+}
+
+.operation-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+
+.icon-plus { background: linear-gradient(130deg, #22c55e, #16a34a); }
+.icon-minus { background: linear-gradient(130deg, #ef4444, #b91c1c); }
+.icon-kali { background: linear-gradient(130deg, #3b82f6, #1d4ed8); }
+.icon-bagi { background: linear-gradient(130deg, #d946ef, #a21caf); }
+
+.operation-theme-plus { --accent: #16a34a; --accent-strong: #15803d; }
+.operation-theme-minus { --accent: #dc2626; --accent-strong: #b91c1c; }
+.operation-theme-kali { --accent: #2563eb; --accent-strong: #1d4ed8; }
+.operation-theme-bagi { --accent: #a21caf; --accent-strong: #86198f; }
+
+.calc-title {
+    color: var(--accent);
+}
+
+.btn-accent {
+    background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+    border: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+    color: #fff;
+    filter: brightness(0.98);
+}
+
+.form-control:focus {
+    border-color: rgba(14, 165, 233, 0.5);
+    box-shadow: 0 0 0 0.24rem rgba(14, 165, 233, 0.14);
+}
+
+.result-box {
+    border-radius: 0.8rem;
+    border: 1px solid rgba(20, 184, 166, 0.3);
+    background: rgba(240, 253, 250, 0.92);
+    color: #0f766e;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    animation: fadeUp 420ms ease both;
+}
+
+@media (min-width: 768px) {
+    .operation-card {
+        padding: 1.15rem;
+    }
+}

@@ -11,44 +11,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pengurangan (-)</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-        .card { background:#fff; padding:24px 32px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); max-width:420px; width:100%; }
-        h1 { margin-top:0; text-align:center; color:#ef4444; }
-        form { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
-        label { font-weight:600; }
-        input[type="number"] { padding:8px; border-radius:4px; border:1px solid #d1d5db; }
-        button { margin-top:4px; padding:10px; border:none; border-radius:6px; background:#ef4444; color:#fff; font-weight:600; cursor:pointer; }
-        button:hover { background:#b91c1c; }
-        .result { margin-top:12px; padding:10px; border-radius:6px; background:#fef2f2; border:1px solid #fecaca; }
-        .back { margin-top:8px; text-align:center; }
-        .back a { text-decoration:none; color:#3b82f6; font-size:14px; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body>
-    <div class="card">
-        <h1>Pengurangan (-)</h1>
-        <form method="post">
-            <label for="a">Angka pertama</label>
-            <input type="number" step="any" name="a" id="a" required value="<?php echo isset($_POST['a']) ? htmlspecialchars($_POST['a']) : ''; ?>">
+<body class="app-shell operation-theme-minus">
+    <main class="container py-4 py-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                <section class="glass-panel p-4 p-md-5 fade-up">
+                    <span class="brand-chip mb-2">Operator Matematika</span>
+                    <h1 class="h3 fw-bold calc-title">Pengurangan (-)</h1>
+                    <p class="text-secondary small mb-0">Masukkan dua angka untuk menghitung selisih.</p>
 
-            <label for="b">Angka kedua</label>
-            <input type="number" step="any" name="b" id="b" required value="<?php echo isset($_POST['b']) ? htmlspecialchars($_POST['b']) : ''; ?>">
+                    <form method="post" class="mt-4">
+                        <div class="form-floating mb-3">
+                            <input type="number" step="any" name="a" id="a" required class="form-control" placeholder="Angka pertama" value="<?php echo isset($_POST['a']) ? htmlspecialchars($_POST['a']) : ''; ?>">
+                            <label for="a">Angka pertama</label>
+                        </div>
 
-            <button type="submit">Hitung</button>
-        </form>
+                        <div class="form-floating mb-3">
+                            <input type="number" step="any" name="b" id="b" required class="form-control" placeholder="Angka kedua" value="<?php echo isset($_POST['b']) ? htmlspecialchars($_POST['b']) : ''; ?>">
+                            <label for="b">Angka kedua</label>
+                        </div>
 
-        <?php if ($hasil !== null): ?>
-            <div class="result">
-                <?php echo htmlspecialchars($_POST['a']) . " - " . htmlspecialchars($_POST['b']) . " = <strong>" . $hasil . "</strong>"; ?>
+                        <button type="submit" class="btn btn-accent w-100 py-2">Hitung</button>
+                    </form>
+
+                    <?php if ($hasil !== null): ?>
+                        <div class="result-box p-3 mt-4">
+                            <?php echo htmlspecialchars($_POST['a']) . " - " . htmlspecialchars($_POST['b']) . " = <strong>" . $hasil . "</strong>"; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <a href="index.php" class="btn btn-outline-secondary w-100 mt-3">Kembali ke menu utama</a>
+                </section>
             </div>
-        <?php endif; ?>
-
-        <div class="back">
-            <a href="index.php">← Kembali ke menu utama</a>
         </div>
-    </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>
 

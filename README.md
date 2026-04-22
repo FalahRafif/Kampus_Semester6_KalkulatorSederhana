@@ -28,3 +28,9 @@ Halaman utama (`index.php`) menyediakan menu untuk memilih operator.
 - `bagi.php` &mdash; Operasi pembagian (dengan pengecekan pembagi nol).
 - `composer.json` &mdash; File konfigurasi PHP minimal (tidak wajib dijalankan dengan Composer, hanya sebagai metadata proyek).
 
+## Dokumentasi Analisis Kebutuhan
+
+Dokumentasi reverse engineering dan analisis kebutuhan aplikasi tersedia di:
+
+- `DOKUMENTASI_ANALISIS_KEBUTUHAN.md`
+
