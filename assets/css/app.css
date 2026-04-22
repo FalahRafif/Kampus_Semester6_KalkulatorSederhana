@@ -1,3 +1,11 @@
+/* Variabel tema default (light mode) untuk seluruh aplikasi. */
+/*
+ALUR BELAJAR (frontend tampilan):
+1) Baca bagian :root untuk memahami variabel warna/tema default.
+2) Lanjut ke [data-theme="dark"] untuk melihat override dark mode.
+3) Setelah itu cek komponen per bagian: card, form, result-box, history-box, theme-toggle.
+4) Jika ingin tahu siapa yang mengubah tema/input secara dinamis, buka assets/js/app.js.
+*/
 :root {
     --surface: rgba(255, 255, 255, 0.9);
     --surface-strong: #ffffff;
@@ -31,6 +39,7 @@
     --history-border: rgba(140, 160, 190, 0.3);
 }
 
+/* Override variabel saat mode gelap aktif. */
 [data-theme="dark"] {
     --surface: rgba(15, 23, 42, 0.86);
     --surface-strong: #132038;
@@ -62,10 +71,12 @@
     --history-border: rgba(89, 108, 146, 0.45);
 }
 
+/* Reset dasar agar sizing elemen konsisten. */
 * {
     box-sizing: border-box;
 }
 
+/* Background utama halaman dan nuansa visual global. */
 body.app-shell {
     margin: 0;
     min-height: 100vh;
@@ -76,6 +87,7 @@ body.app-shell {
     overflow-x: hidden;
 }
 
+/* Glow dekoratif di background. */
 body.app-shell::before,
 body.app-shell::after {
     content: "";
@@ -99,6 +111,7 @@ body.app-shell::after {
     background: var(--glow-right);
 }
 
+/* Kontainer utama bergaya glassmorphism. */
 .glass-panel {
     background: var(--surface);
     border: 1px solid var(--border-soft);
@@ -107,6 +120,7 @@ body.app-shell::after {
     backdrop-filter: blur(4px);
 }
 
+/* Badge kecil brand/info di atas card. */
 .brand-chip {
     display: inline-flex;
     align-items: center;
@@ -120,6 +134,7 @@ body.app-shell::after {
     border: 1px solid var(--chip-border);
 }
 
+/* Kartu operator pada halaman menu utama. */
 .operation-card {
     background: var(--operation-card-bg);
     border: 1px solid var(--border-soft);
@@ -149,6 +164,7 @@ body.app-shell::after {
     margin-bottom: 0.75rem;
 }
 
+/* Warna ikon operator. */
 .icon-plus { background: linear-gradient(130deg, #22c55e, #16a34a); }
 .icon-minus { background: linear-gradient(130deg, #ef4444, #b91c1c); }
 .icon-kali { background: linear-gradient(130deg, #3b82f6, #1d4ed8); }
@@ -159,6 +175,7 @@ body.app-shell::after {
 .operation-theme-kali { --accent: #2563eb; --accent-strong: #1d4ed8; }
 .operation-theme-bagi { --accent: #a21caf; --accent-strong: #86198f; }
 
+/* Elemen judul dan tombol utama aksi hitung. */
 .calc-title {
     color: var(--accent);
 }
@@ -181,6 +198,7 @@ body.app-shell::after {
     box-shadow: 0 0 0 0.24rem rgba(14, 165, 233, 0.14);
 }
 
+/* Penyesuaian warna elemen Bootstrap agar ikut variabel tema. */
 .app-shell .text-secondary {
     color: var(--text-soft) !important;
 }
@@ -211,6 +229,7 @@ body.app-shell::after {
     border-color: var(--text-soft);
 }
 
+/* Komponen hasil, input dinamis, dan riwayat perhitungan. */
 .result-box {
     border-radius: 0.8rem;
     border: 1px solid var(--result-border);
@@ -247,6 +266,7 @@ body.app-shell::after {
     padding-bottom: 0;
 }
 
+/* Tombol toggle dark/light mode floating di kanan atas. */
 .theme-toggle {
     position: fixed;
     top: 14px;
@@ -267,6 +287,7 @@ body.app-shell::after {
     border-color: var(--text-soft);
 }
 
+/* Animasi masuk halus untuk panel konten. */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -282,6 +303,7 @@ body.app-shell::after {
     animation: fadeUp 420ms ease both;
 }
 
+/* Penyesuaian spacing kartu pada layar lebih besar. */
 @media (min-width: 768px) {
     .operation-card {
         padding: 1.15rem;
