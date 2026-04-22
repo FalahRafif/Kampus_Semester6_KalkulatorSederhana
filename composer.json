@@ -1,0 +1,10 @@
+{
+  "name": "rpl1/kalkulator-sederhana",
+  "description": "Aplikasi operator matematika sederhana berbasis PHP (tambah, kurang, kali, bagi).",
+  "type": "project",
+  "require": {
+    "php": ">=7.4"
+  },
+  "license": "MIT"
+}
+
