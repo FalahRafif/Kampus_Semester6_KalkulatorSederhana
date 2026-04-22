@@ -1,11 +1,42 @@
 <?php
+require_once __DIR__ . '/includes/calculator_utils.php';
+
+calculator_bootstrap();
+
 $hasil = null;
+$hasilTeks = null;
+$expression = null;
+$error = null;
+$inputValues = ['', ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $a = isset($_POST['a']) ? (float) $_POST['a'] : 0;
-    $b = isset($_POST['b']) ? (float) $_POST['b'] : 0;
-    $hasil = $a * $b;
+    $action = $_POST['action'] ?? 'calculate';
+
+    if ($action === 'clear_history') {
+        calculator_clear_history();
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
+
+    $inputValues = calculator_get_form_values($_POST);
+    $parsed = calculator_parse_numeric_values($inputValues);
+    $values = $parsed['values'];
+    $error = $parsed['error'];
+
+    if ($error === null) {
+        $calculated = calculator_calculate('multiply', $values);
+        $error = $calculated['error'];
+
+        if ($error === null) {
+            $hasil = (float) $calculated['result'];
+            $hasilTeks = calculator_format_number($hasil);
+            $expression = calculator_build_expression($values, '×');
+            calculator_add_history('Perkalian', $expression, $hasilTeks);
+        }
+    }
 }
+
+$history = calculator_get_history();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -26,27 +57,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <section class="glass-panel p-4 p-md-5 fade-up">
                     <span class="brand-chip mb-2">Operator Matematika</span>
                     <h1 class="h3 fw-bold calc-title">Perkalian (×)</h1>
-                    <p class="text-secondary small mb-0">Masukkan dua angka untuk menghitung perkalian.</p>
+                    <p class="text-secondary small mb-0">Masukkan minimal dua angka untuk dikalikan.</p>
 
-                    <form method="post" class="mt-4">
-                        <div class="form-floating mb-3">
-                            <input type="number" step="any" name="a" id="a" required class="form-control" placeholder="Angka pertama" value="<?php echo isset($_POST['a']) ? htmlspecialchars($_POST['a']) : ''; ?>">
-                            <label for="a">Angka pertama</label>
+                    <form method="post" class="mt-4 calc-form" data-multi-input-form data-min-input="2">
+                        <input type="hidden" name="action" value="calculate">
+
+                        <div class="vstack gap-2 mb-3" data-values-container>
+                            <?php foreach ($inputValues as $index => $value): ?>
+                                <div class="input-group multi-input-row">
+                                    <span class="input-group-text">Angka <?php echo $index + 1; ?></span>
+                                    <input type="number" step="any" name="values[]" class="form-control calc-value-input" placeholder="Masukkan angka" value="<?php echo htmlspecialchars($value); ?>" <?php echo $index < 2 ? 'required' : ''; ?>>
+                                    <button type="button" class="btn btn-outline-danger remove-input-btn" <?php echo $index < 2 ? 'disabled' : ''; ?>>Hapus</button>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="number" step="any" name="b" id="b" required class="form-control" placeholder="Angka kedua" value="<?php echo isset($_POST['b']) ? htmlspecialchars($_POST['b']) : ''; ?>">
-                            <label for="b">Angka kedua</label>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-add-input>Tambah Input</button>
                         </div>
 
                         <button type="submit" class="btn btn-accent w-100 py-2">Hitung</button>
                     </form>
 
-                    <?php if ($hasil !== null): ?>
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger mt-4 mb-0" role="alert">
+                            <?php echo htmlspecialchars($error); ?>
+                        </div>
+                    <?php elseif ($hasil !== null): ?>
                         <div class="result-box p-3 mt-4">
-                            <?php echo htmlspecialchars($_POST['a']) . " × " . htmlspecialchars($_POST['b']) . " = <strong>" . $hasil . "</strong>"; ?>
+                            <?php echo htmlspecialchars($expression) . " = <strong>" . htmlspecialchars($hasilTeks) . "</strong>"; ?>
                         </div>
                     <?php endif; ?>
+
+                    <div class="history-box mt-4 p-3">
+                        <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                            <h2 class="h6 mb-0">Riwayat Perhitungan</h2>
+                            <?php if (!empty($history)): ?>
+                                <form method="post" class="m-0">
+                                    <input type="hidden" name="action" value="clear_history">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Hapus Riwayat</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if (empty($history)): ?>
+                            <p class="small text-secondary mb-0">Belum ada riwayat perhitungan.</p>
+                        <?php else: ?>
+                            <ul class="list-unstyled history-list mb-0">
+                                <?php foreach ($history as $item): ?>
+                                    <li class="history-item">
+                                        <div class="d-flex justify-content-between gap-2 flex-wrap">
+                                            <strong><?php echo htmlspecialchars($item['operation']); ?></strong>
+                                            <span class="small text-secondary"><?php echo htmlspecialchars($item['timestamp']); ?></span>
+                                        </div>
+                                        <p class="mb-0 small"><?php echo htmlspecialchars($item['expression']); ?> = <strong><?php echo htmlspecialchars($item['result']); ?></strong></p>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
 
                     <a href="index.php" class="btn btn-outline-secondary w-100 mt-3">Kembali ke menu utama</a>
                 </section>

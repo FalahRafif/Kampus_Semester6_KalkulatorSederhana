@@ -7,6 +7,59 @@
     --shadow-soft: 0 20px 45px rgba(16, 29, 55, 0.12);
     --accent: #0ea5e9;
     --accent-strong: #0284c7;
+    --body-bg:
+        radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.25), transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.25), transparent 40%),
+        linear-gradient(145deg, #f8fbff 0%, #eef4ff 55%, #ecfeff 100%);
+    --glow-left: rgba(37, 99, 235, 0.28);
+    --glow-right: rgba(6, 182, 212, 0.24);
+    --chip-text: #075985;
+    --chip-bg: rgba(103, 232, 249, 0.35);
+    --chip-border: rgba(6, 182, 212, 0.35);
+    --operation-card-bg: #ffffff;
+    --card-hover-border: rgba(37, 99, 235, 0.45);
+    --card-hover-shadow: 0 16px 30px rgba(37, 99, 235, 0.16);
+    --card-hover-glow: rgba(125, 211, 252, 0.28);
+    --input-bg: #ffffff;
+    --result-border: rgba(20, 184, 166, 0.3);
+    --result-bg: rgba(240, 253, 250, 0.92);
+    --result-text: #0f766e;
+    --toggle-bg: rgba(255, 255, 255, 0.82);
+    --toggle-border: rgba(125, 145, 175, 0.4);
+    --toggle-text: #0f172a;
+    --history-bg: rgba(255, 255, 255, 0.72);
+    --history-border: rgba(140, 160, 190, 0.3);
+}
+
+[data-theme="dark"] {
+    --surface: rgba(15, 23, 42, 0.86);
+    --surface-strong: #132038;
+    --text-main: #e2e8f0;
+    --text-soft: #9fb0cc;
+    --border-soft: rgba(130, 150, 185, 0.26);
+    --shadow-soft: 0 24px 50px rgba(3, 8, 23, 0.48);
+    --body-bg:
+        radial-gradient(circle at 8% 10%, rgba(14, 165, 233, 0.22), transparent 45%),
+        radial-gradient(circle at 90% 15%, rgba(37, 99, 235, 0.2), transparent 40%),
+        linear-gradient(145deg, #071122 0%, #0b1530 60%, #10203f 100%);
+    --glow-left: rgba(2, 132, 199, 0.26);
+    --glow-right: rgba(59, 130, 246, 0.24);
+    --chip-text: #a5f3fc;
+    --chip-bg: rgba(8, 47, 73, 0.5);
+    --chip-border: rgba(8, 145, 178, 0.45);
+    --operation-card-bg: #1e293b;
+    --card-hover-border: rgba(56, 189, 248, 0.5);
+    --card-hover-shadow: 0 16px 30px rgba(2, 132, 199, 0.2);
+    --card-hover-glow: rgba(56, 189, 248, 0.2);
+    --input-bg: #0f172a;
+    --result-border: rgba(13, 148, 136, 0.42);
+    --result-bg: rgba(15, 118, 110, 0.18);
+    --result-text: #a7f3d0;
+    --toggle-bg: rgba(15, 23, 42, 0.88);
+    --toggle-border: rgba(71, 85, 105, 0.65);
+    --toggle-text: #f8fafc;
+    --history-bg: rgba(15, 23, 42, 0.48);
+    --history-border: rgba(89, 108, 146, 0.45);
 }
 
 * {
@@ -18,10 +71,7 @@ body.app-shell {
     min-height: 100vh;
     font-family: "Sora", "Segoe UI", sans-serif;
     color: var(--text-main);
-    background:
-        radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.25), transparent 45%),
-        radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.25), transparent 40%),
-        linear-gradient(145deg, #f8fbff 0%, #eef4ff 55%, #ecfeff 100%);
+    background: var(--body-bg);
     position: relative;
     overflow-x: hidden;
 }
@@ -40,13 +90,13 @@ body.app-shell::after {
 body.app-shell::before {
     top: -120px;
     left: -80px;
-    background: rgba(37, 99, 235, 0.28);
+    background: var(--glow-left);
 }
 
 body.app-shell::after {
     right: -90px;
     bottom: -120px;
-    background: rgba(6, 182, 212, 0.24);
+    background: var(--glow-right);
 }
 
 .glass-panel {
@@ -65,13 +115,13 @@ body.app-shell::after {
     border-radius: 999px;
     font-size: 0.74rem;
     font-weight: 600;
-    color: #075985;
-    background: rgba(103, 232, 249, 0.35);
-    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: var(--chip-text);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
 }
 
 .operation-card {
-    background: var(--surface-strong);
+    background: var(--operation-card-bg);
     border: 1px solid var(--border-soft);
     border-radius: 1rem;
     padding: 1rem 0.95rem;
@@ -82,8 +132,8 @@ body.app-shell::after {
 
 .operation-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(37, 99, 235, 0.45);
-    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.16);
+    border-color: var(--card-hover-border);
+    box-shadow: var(--card-hover-shadow);
 }
 
 .operation-icon {
@@ -131,11 +181,90 @@ body.app-shell::after {
     box-shadow: 0 0 0 0.24rem rgba(14, 165, 233, 0.14);
 }
 
+.app-shell .text-secondary {
+    color: var(--text-soft) !important;
+}
+
+.app-shell .form-control {
+    background-color: var(--input-bg);
+    border-color: var(--border-soft);
+    color: var(--text-main);
+}
+
+.app-shell .form-control::placeholder {
+    color: color-mix(in srgb, var(--text-soft) 70%, transparent);
+}
+
+.app-shell .form-floating > label {
+    color: var(--text-soft);
+}
+
+.app-shell .btn-outline-secondary {
+    border-color: var(--border-soft);
+    color: var(--text-main);
+}
+
+.app-shell .btn-outline-secondary:hover,
+.app-shell .btn-outline-secondary:focus {
+    background-color: color-mix(in srgb, var(--text-main) 12%, transparent);
+    color: var(--text-main);
+    border-color: var(--text-soft);
+}
+
 .result-box {
     border-radius: 0.8rem;
-    border: 1px solid rgba(20, 184, 166, 0.3);
-    background: rgba(240, 253, 250, 0.92);
-    color: #0f766e;
+    border: 1px solid var(--result-border);
+    background: var(--result-bg);
+    color: var(--result-text);
+}
+
+.multi-input-row .input-group-text {
+    min-width: 84px;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--surface-strong) 80%, transparent);
+    border-color: var(--border-soft);
+    color: var(--text-main);
+}
+
+.history-box {
+    background: var(--history-bg);
+    border: 1px solid var(--history-border);
+    border-radius: 0.95rem;
+}
+
+.history-list {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed color-mix(in srgb, var(--history-border) 85%, transparent);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 1050;
+    border-radius: 999px;
+    border: 1px solid var(--toggle-border);
+    background: var(--toggle-bg);
+    color: var(--toggle-text);
+    backdrop-filter: blur(5px);
+    font-weight: 600;
+    padding: 0.35rem 0.8rem;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+    color: var(--toggle-text);
+    border-color: var(--text-soft);
 }
 
 @keyframes fadeUp {
